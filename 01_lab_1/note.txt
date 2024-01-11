@@ -1,0 +1,30 @@
+#TP1 Mise en place de argocd
+
+rappel: dans le tp0 nous avons eu a mettre en place notre infrastructure et avons donner 
+        le contenu de cette stack 
+
+
+#Verifier que minikube est up:
+    minikube status # si up alors passer a l'etape suivante
+    minikube start #si minikube n'est pas up 
+
+# Verifier si la ligne de commande Kubectl est fonctionnel
+    - Passer en root : sudo su 
+    - check de fonctionnement : Kubectl get pods 
+
+# Verifier que l'utilitaire kubens est fonctionnel 
+    - kubens #on devrait avoir la liste des namespace disponible ( kubens sans parametre equivaut a "kubectl get ns")
+    - kubens argocd #Pour changer de namespace par defaut 
+    - kubectl get all #Verifier les sections (services, pods et deployment)
+NB: Bien regarder le status et le nombre de container ready s'ils sont tous up votre  Argocd est fonctionnel 
+
+#Connexion a l'interface graphique via le navigateur
+    - recuperer votre ip et rajouter le port 30000
+        exemple: 192.168.10.10:30000
+    - une fenetre va s'afficher accepter le risque et continuer vous aurez la page d'acceuil de Argocd 
+
+    - recuperer le Password par defaut via: 
+        kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+    NB: les credentials par defaut lors de la premiere connexion sont :
+        user: admin 
+        password: ce que vous aurez recuperer au point precedent 

@@ -1,0 +1,32 @@
+#TP5
+Objectifs: Ajouter Helm a argocd
+
+#creation du projet helm
+/usr/local/bin/argocd proj create helmproj
+
+#verifier les cles ssh existante
+/usr/local/bin/argocd cert list --cert-type ssh
+ls .ssh/
+
+#scan des ip pour verifier les adresse ip autoriser  a realiser une connexion ssh au serveur 
+ssh-keyscan 10.0.2.15
+ssh-keyscan 10.0.2.15 | /usr/local/bin/argocd cert add-ssh --batch 
+
+ls /git/repos/roar-k8s-helm.git/
+/usr/local/bin/argocd proj add-destination helmproj https://10.0.2.15:8443 helm-demo
+cd roar-k8s-helm/
+ls
+vi helm/values.yaml 
+tree
+git diff
+git add .
+git commit -m "fix version number"
+git push origin master
+git push origin main
+clear
+k get svc -n helm-demo
+cd
+
+argocd repo add https://github.com/brentlaster/roar-k8s-helm.git
+argocd proj add-source helmproj https://github.com/brentlaster/roar-k8s-helm.git
+/usr/local/bin/argocd proj add-destination helmproj https://173.249.17.138:8443 helm-demo

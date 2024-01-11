@@ -1,0 +1,22 @@
+
+#Lien utile : 
+- https://helm.sh/docs/intro/install/
+- https://github.com/prometheus-community/helm-charts
+- https://argoproj.github.io/argo-cd/operator-manual/metrics/
+
+#installation de Helm (CHeck si pas deja fait)
+ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+ chmod 700 get_helm.sh
+ ./get_helm.sh
+
+#Installation de prometheus
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update 
+helm install prometheus prometheus-community/kube-prometheus-stack
+
+#Connection a grafana
+kubectl port-forward --address 0.0.0.0 svc/prometheus-grafana 8090:80
+login: admin:prom-operator
+
+#connexion a prometheus dashboard
+kubectl port-forward --address 0.0.0.0 svc/prometheus-kube-prometheus-prometheus 8091:9090

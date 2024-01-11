@@ -1,0 +1,6 @@
+#TP4 
+
+Objectifs: Pouvoir realiser un rollout et un rollback de notre application 
+            en se basant sur l'element de veriter qu'est GIT
+
+NB: Ce tp se realise sur interface graphique

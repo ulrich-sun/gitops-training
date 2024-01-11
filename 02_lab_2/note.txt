@@ -1,0 +1,22 @@
+#TP3
+Objectifs: Creer une applicationpour realiser le deploiement sur notre cluster Minikube
+
+
+Lien repo: https://github.com/brentlaster/roar-deploy-k8s.git
+
+step 1: rajouter le cluster kubernetes a ArgoCD
+    # se connecter a ArgoCD
+        /usr/local/bin/argocd login ip:30000  ---> /usr/local/bin/argocd login 192.168.99.10:30000
+        (on vous demandera le username et le password)
+    
+    #Ajout du cluster Minikube 
+        /usr/local/bin/argocd cluster add minikube
+step 2:
+    #creer des variables d'environnement afin d'aller plus vite
+    export ARGOCD_OPTS='--port-forward-namespace argocd'
+    export CLUSTER_IP=https://$(sudo minikube ip):8443
+
+    #creeons l'application 
+    /usr/local/bin/argocd app create roar-deploy-k8s --repo https://github.com/brentlaster/roar-deploy-k8s --path . --dest-server $CLUSTER_IP --dest-namespace roar
+
+#l'application a bien ete creer , Bien vouloir vous rendre sur l'interface graphique et verifier cela 

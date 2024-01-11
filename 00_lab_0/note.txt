@@ -1,0 +1,27 @@
+#Telecharger et installer les outils suivants:
+ - virtualbox: 6.1.36
+ - vagrant : 2.3.0
+ - git 
+ - utilitaire leger de connexion: mobaxterm ou putty (optional)
+ - script de deploiement :
+
+#contenu de la stack:
+    - jenkins
+    - minikube
+    - docker
+    - argocd 
+    - docker-compose
+    - git
+    - kubens & kubectx
+
+ # Une fois le necessaire Telecharger:
+    -  Installer les differents outils
+    - se rendre dans le repertoire Telecharger precedemment et lancer la stack 
+        vagrant up 
+    - Une fois la stack provisionner, connectez vous :
+        Methode 1: vagrant ssh ( dans le repertoire ou vous avez lancer "vagrant up")
+        Methode 2: se connecter en ssh via mobaxterm ou putty en utilisant votre adresse ip et vos credentials
+        NB: les credentials par defaut sont :
+            user: vagrant 
+            password: vagrant 
+    

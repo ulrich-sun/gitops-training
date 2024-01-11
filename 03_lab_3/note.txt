@@ -1,0 +1,32 @@
+#TP3
+
+#Creation du name par argocd
+#verifier que le projet est bien present:
+    argocd app get roar-deploy-k8s
+
+#Ajouter des variables d'environnement pour realiser une modifications sur l'application
+
+    export EDITOR=vi
+    /usr/local/bin/argocd app edit roar-deploy-k8s
+
+NB: une fois l'editeur ouvert:
+    - Dirigez vous vers la fin du fichier
+    - appuyez sur la touche i pour pouvoir effectuer un changement 
+    -Ajouter les lignes suivantes:
+        syncPolicy:
+         syncOptions:
+         - CreateNamespace=true
+    - une fois que la modifcation est effectuer 
+    - Enregistrer le fichier avec les combinaisons de touche suivantes:
+                esc
+                :
+                x 
+                enter
+    - clique sur synchrosisation sur l'interface web et patienter
+    - verifier sur le cluster si vous avez les applications deployer
+        kubens
+        kubens roar 
+        kubectl get all 
+    - recuperer le port du service nodeport associer et ouvrer le navigateur et inserer ceci:
+        ip_serveur_minikube:nodeport/roar 
+        (192.168.99.10:31790/roar)

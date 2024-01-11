@@ -1,0 +1,39 @@
+argocd proj create jenkins-proj -d https://10.0.2.15:8443,* -s git@10.0.2.15:/git/repos/roar-min-deploy
+argocd repo add git@10.0.2.15:/git/repos/roar-min-deploy.git --ssh-private-key-path ~/.ssh/id_rsa
+argocd app create jenkins-stage --project jenkins-proj --repo git@10.0.2.15:/git/repos/roar-min-deploy.git --dest-server https://10.0.2.15:8443 --path overlays/stage --sync-policy auto
+cd roar-min-deploy/overlays/stage/
+kustomize build
+cd
+argocd app create jenkins-prod --project jenkins-proj --repo git@10.0.2.15:/git/repos/roar-min-deploy.git --dest-server https://10.0.2.15:8443 --path overlays/prod --sync-policy auto
+ls roar-min-deploy/overlays/prod/
+cd roar-min-deploy/
+git pull
+cat overlays/prod/db/kustomization.yaml 
+k get namespace
+
+
+### Update 
+argocd proj create jenkins-proj -d https://173.249.17.138:8443,* -s root@173.249.17.138:/git/repos/roar-min-deploy
+argocd repo add root@173.249.17.138:/git/repos/roar-min-deploy.git --ssh-private-key-path ~/.ssh/id_rsa
+argocd app create jenkins-stage --project jenkins-proj --repo root@173.249.17.138:/git/repos/roar-min-deploy.git --dest-server https://173.249.17.138:8443 --path overlays/stage --sync-policy auto
+argocd app create jenkins-prod --project jenkins-proj --repo root@173.249.17.138:/repos/roar-min-deploy.git --dest-server https://173.249.17.138:8443 --path overlays/prod --sync-policy auto
+
+
+# test
+argocd proj create test-proj -d https://173.249.17.138:8443,* -s https://github.com/brentlaster/roar-min-deploy
+argocd repo add https://github.com/brentlaster/roar-min-deploy.git 
+argocd app create jtest-stage --project test-proj --repo https://github.com/brentlaster/roar-min-deploy.git --dest-server https://173.249.17.138:8443 --path overlays/stage --sync-policy auto
+argocd app create jtest-prod --project test-proj --repo https://github.com/brentlaster/roar-min-deploy.git --dest-server https://173.249.17.138:8443 --path overlays/prod --sync-policy auto
+
+https://github.com/brentlaster/roar-min-deploy.git
+
+ export EDITOR=vi
+    /usr/local/bin/argocd app edit jtest-prod
+
+NB: une fois l'editeur ouvert:
+    - Dirigez vous vers la fin du fichier
+    - appuyez sur la touche i pour pouvoir effectuer un changement 
+    -Ajouter les lignes suivantes:
+        syncPolicy:
+         syncOptions:
+         - CreateNamespace=true
